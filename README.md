@@ -1,9 +1,15 @@
 # lmatrix
 
+<img src="resources/images/linear-subspaces.png" />
+
+*A Simple Linear Algebra Library for LFE*
+
 
 ## Introduction
 
-Add content to me here!
+Erlang is not a programming language designed for nor performant with
+numerical calculations. This library is for fun only, not for scientific
+computing purposes.
 
 
 ## Installation
