@@ -109,3 +109,14 @@
               (4 8 12 16))
             (lmatrix:trans (matrix-8)))
   (is-equal (matrix-8) (lmatrix:trans (lmatrix:trans (matrix-8)))))
+
+(deftest multiplication
+  (is-equal '((20))
+            (lmatrix:mult '((1 2 3 4)) '((4) (3) (2) (1))))
+  (is-equal '((19) (43))
+            (lmatrix:mult (matrix-2) '((5) (7))))
+  (is-equal '((5 11 17 23)
+              (11 25 39 53)
+              (17 39 61 83)
+              (23 53 83 113))
+            (lmatrix:mult (matrix-4) (lmatrix:trans (matrix-4)))))
