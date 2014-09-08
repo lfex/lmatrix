@@ -33,7 +33,7 @@ And then do the usual:
 
 ## Usage
 
-Start up the repl, after compiling as above:
+Start up the REPL, after compiling as above:
 
 ```bash
 $ make repl-no-deps
