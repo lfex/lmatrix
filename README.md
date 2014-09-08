@@ -19,7 +19,7 @@ Just add it to your ``rebar.config`` deps:
 ```erlang
     {deps, [
         ...
-        {lmatrix, ".*", {git, "git@github.com:YOURNAME/lmatrix.git", "master"}}
+        {lmatrix, ".*", {git, "git@github.com:lfex/lmatrix.git", "master"}}
       ]}.
 ```
 
