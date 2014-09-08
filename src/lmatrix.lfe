@@ -53,11 +53,13 @@
 (defun swap-rows
   "Swap two rows in a matrix, given a matrix (list of lists) and two integers
   representing the indices for the rows to be swapped."
-  ((matrix index-1 index-2) (when (== index-1 index-2))
+  ((index-1 index-2 matrix) (when (== index-1 index-2))
    matrix)
-  ((matrix index-1 index-2) (when (> index-1 index-2))
-   (swap-rows matrix index-2 index-1))
-  ((matrix index-1 index-2)
+  ((index-1 index-2 matrix) (when (> index-1 index-2))
+   (swap-rows index-2 index-1 matrix))
+  ;; XXX I think I'd rather do this next bit with recursion and an accumulator.
+  ;; Will open a ticket ...
+  ((index-1 index-2 matrix)
    (let* ((`#(,part-1 ,part-2) (lists:split index-1 matrix))
           (rel-index (- index-2 index-1 1))
           (`#(,part-3 ,part-4) (lists:split rel-index (cdr part-2))))

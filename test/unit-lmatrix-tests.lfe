@@ -134,15 +134,15 @@
             (lmatrix:identity (lmatrix:dim (matrix-7)))))
 
 (deftest swap-rows-same-index
-  (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 0 0))
-  (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 1 1))
-  (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 4 4)))
+  (is-equal (matrix-6) (lmatrix:swap-rows 0 0 (matrix-6)))
+  (is-equal (matrix-6) (lmatrix:swap-rows 1 1 (matrix-6)))
+  (is-equal (matrix-6) (lmatrix:swap-rows 4 4 (matrix-6))))
 
 (deftest swap-rows-inverted-indices
-  (is-equal (lmatrix:swap-rows (matrix-6) 0 1)
-            (lmatrix:swap-rows (matrix-6) 1 0))
-  (is-equal (lmatrix:swap-rows (matrix-6) 2 4)
-            (lmatrix:swap-rows (matrix-6) 4 2)))
+  (is-equal (lmatrix:swap-rows 0 1 (matrix-6))
+            (lmatrix:swap-rows 1 0 (matrix-6)))
+  (is-equal (lmatrix:swap-rows 2 4 (matrix-6))
+            (lmatrix:swap-rows 4 2 (matrix-6))))
 
 (deftest swap-rows
   (is-equal
@@ -152,7 +152,7 @@
     (10 11 12)
     (13 14 15)
     (1  2  3))
-    (lmatrix:swap-rows (matrix-6) 0 5))
+    (lmatrix:swap-rows 0 5 (matrix-6)))
   (is-equal
   '((1  2  3)
     (10 11 12)
@@ -160,4 +160,4 @@
     (4  5  6)
     (13 14 15)
     (16 17 18))
-    (lmatrix:swap-rows (matrix-6) 3 1)))
+    (lmatrix:swap-rows 3 1 (matrix-6))))
