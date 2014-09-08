@@ -2,9 +2,9 @@ language: erlang
 before_script: "make get-lfetool"
 script: "make check"
 notifications:
-  #irc: "irc.freenode.org#YOUR-PROJECT-CHANNEL"
+  irc: "irc.freenode.org#cogitat"
   recipients:
-    #- YOU@YOUR.DOMAIN
+    - duncan@cogitat.io
 otp_release:
   - 17.0
   - R16B03
