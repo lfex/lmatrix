@@ -11,7 +11,8 @@
   ((matrix)
     `(,(length matrix) ,(length (car matrix)))))
 
-(defun transpose (matrix)
+(defun trans (matrix)
+  "Transpose a given matrix."
   (case (dim matrix)
     ('(0 0)
       matrix)
