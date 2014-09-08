@@ -33,4 +33,22 @@ And then do the usual:
 
 ## Usage
 
-Add content to me here!
+Start up the repl, after compiling as above:
+
+```bash
+$ make repl-no-deps
+```
+
+Then use the library at will:
+
+```cl
+> (set matrix
+    '((1 2 3)
+      (4 5 6)
+      (7 8 9)))
+((1 2 3) (4 5 6) (7 8 9))
+> (lmatrix:dim matrix)
+(3 3)
+> (lmatrix:transpose matrix)
+((1 4 7) (2 5 8) (3 6 9))
+```
