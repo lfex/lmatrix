@@ -132,3 +132,40 @@
               (1 1 1 1 1 1)
               (1 1 1 1 1 1))
             (lmatrix:identity (lmatrix:dim (matrix-7)))))
+
+(deftest swap-rows-errors
+  (is-equal
+    '#(error "Smallest index must be 0 or greater.")
+    (lmatrix:swap-rows (matrix-6) 1 -1))
+  (is-equal
+    '#(error "Largest index cannot be larger than max row index.")
+    (lmatrix:swap-rows (matrix-6) 1 6)))
+
+(deftest swap-rows-same-index
+  (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 0 0))
+  (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 1 1))
+  (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 4 4)))
+
+(deftest swap-rows-inverted-indices
+  (is-equal (lmatrix:swap-rows (matrix-6) 0 1)
+            (lmatrix:swap-rows (matrix-6) 1 0))
+  (is-equal (lmatrix:swap-rows (matrix-6) 2 4)
+            (lmatrix:swap-rows (matrix-6) 4 2)))
+
+(deftest swap-rows
+  (is-equal
+  '((16 17 18)
+    (4  5  6)
+    (7  8  9)
+    (10 11 12)
+    (13 14 15)
+    (1  2  3))
+    (lmatrix:swap-rows (matrix-6) 0 5))
+  (is-equal
+  '((1  2  3)
+    (10 11 12)
+    (7  8  9)
+    (4  5  6)
+    (13 14 15)
+    (16 17 18))
+    (lmatrix:swap-rows (matrix-6) 3 1)))

@@ -43,3 +43,22 @@
 
 (defun identity (m n)
   (lists:duplicate m (lists:duplicate n 1)))
+
+(defun swap-rows
+  ((matrix index-1 index-2) (when (== index-1 index-2))
+   matrix)
+  ((matrix index-1 index-2) (when (< index-1 0))
+   `#(error "Smallest index must be 0 or greater."))
+  ((matrix index-1 index-2) (when (>= index-2 (length matrix)))
+   `#(error "Largest index cannot be larger than max row index."))
+  ((matrix index-1 index-2) (when (> index-1 index-2))
+   (swap-rows matrix index-2 index-1))
+  ((matrix index-1 index-2)
+   (let* ((`#(,part-1 ,part-2) (lists:split index-1 matrix))
+          (rel-index (- index-2 index-1 1))
+          (`#(,part-3 ,part-4) (lists:split rel-index (cdr part-2))))
+     (++ part-1
+         (list (lists:nth (+ index-2 1) matrix))
+         part-3
+         (list (lists:nth (+ index-1 1) matrix))
+         (cdr part-4)))))
