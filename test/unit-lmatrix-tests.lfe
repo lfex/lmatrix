@@ -133,14 +133,6 @@
               (1 1 1 1 1 1))
             (lmatrix:identity (lmatrix:dim (matrix-7)))))
 
-(deftest swap-rows-errors
-  (is-equal
-    '#(error "Smallest index must be 0 or greater.")
-    (lmatrix:swap-rows (matrix-6) 1 -1))
-  (is-equal
-    '#(error "Largest index cannot be larger than max row index.")
-    (lmatrix:swap-rows (matrix-6) 1 6)))
-
 (deftest swap-rows-same-index
   (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 0 0))
   (is-equal (matrix-6) (lmatrix:swap-rows (matrix-6) 1 1))
