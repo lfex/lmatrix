@@ -24,4 +24,4 @@
       (list-comp ((<- elem (apply #'lists:zip3/3 matrix)))
                  (tuple_to_list elem)))
     (`(,_ ,_)
-       `#(error not-implemented))))
+       (lutil-type:zip matrix))))

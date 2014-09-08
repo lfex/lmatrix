@@ -24,7 +24,7 @@
 
 (defun matrix-4 ()
   '((1 2)
-    (2 4)
+    (3 4)
     (5 6)
     (7 8)))
 
@@ -76,8 +76,7 @@
               (4 9)
               (5 10))
             (lmatrix:transpose (matrix-5)))
-  ;(is-equal (matrix-5) (lmatrix:transpose (lmatrix:transpose (matrix-5))))
-  )
+  (is-equal (matrix-5) (lmatrix:transpose (lmatrix:transpose (matrix-5)))))
 
 (deftest transpose-3*
   (is-equal '((1 4 7)
@@ -92,5 +91,21 @@
               (5 11 17)
               (6 12 18))
             (lmatrix:transpose (matrix-7)))
-  ;(is-equal (matrix-7) (lmatrix:transpose (lmatrix:transpose (matrix-7))))
-  )
+  (is-equal (matrix-7) (lmatrix:transpose (lmatrix:transpose (matrix-7)))))
+
+(deftest transpose-any
+  (is-equal '((1 3 5 7)
+              (2 4 6 8))
+            (lmatrix:transpose (matrix-4)))
+  (is-equal (matrix-4) (lmatrix:transpose (lmatrix:transpose (matrix-4))))
+  (is-equal '((1 4 7 10 13 16)
+              (2 5 8 11 14 17)
+              (3 6 9 12 15 18))
+            (lmatrix:transpose (matrix-6)))
+  (is-equal (matrix-6) (lmatrix:transpose (lmatrix:transpose (matrix-6))))
+  (is-equal '((1 5 9  13)
+              (2 6 10 14)
+              (3 7 11 15)
+              (4 8 12 16))
+            (lmatrix:transpose (matrix-8)))
+  (is-equal (matrix-8) (lmatrix:transpose (lmatrix:transpose (matrix-8)))))
