@@ -120,3 +120,15 @@
               (17 39 61 83)
               (23 53 83 113))
             (lmatrix:mult (matrix-4) (lmatrix:trans (matrix-4)))))
+
+(deftest identity-square
+  (is-equal '((1)) (lmatrix:identity 1))
+  (is-equal '((1 1) (1 1)) (lmatrix:identity 2))
+  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3)))
+
+(deftest identity
+  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3 3))
+  (is-equal '((1 1 1 1 1 1)
+              (1 1 1 1 1 1)
+              (1 1 1 1 1 1))
+            (lmatrix:identity (lmatrix:dim (matrix-7)))))
