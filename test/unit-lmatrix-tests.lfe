@@ -51,7 +51,7 @@
     (9  10 11 12)
     (13 14 15 16)))
 
-(deftest dim
+(deftest dimension
   (is-equal '(0 0) (lmatrix:dim (matrix-0a)))
   (is-equal '(0 0) (lmatrix:dim (matrix-0b)))
   (is-equal '(1 1) (lmatrix:dim (matrix-1)))
