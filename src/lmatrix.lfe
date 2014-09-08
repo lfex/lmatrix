@@ -28,6 +28,7 @@
        (lutil-type:zip matrix))))
 
 (defun mult (matrix-1 matrix-2)
+  "Multiply two matrices."
   (list-comp
     ((<- a matrix-1))
     (list-comp
@@ -36,15 +37,22 @@
                    (lists:zipwith #'*/2 a b)))))
 
 (defun identity
+  "Provide an identify matrix.
+
+  Takes either an integer or a list of integers (as returned by the dim/1
+  function)."
   ((`(,m ,n))
    (identity m n))
   ((m)
    (identity m m)))
 
 (defun identity (m n)
+  "Provide an identify matrix."
   (lists:duplicate m (lists:duplicate n 1)))
 
 (defun swap-rows
+  "Swap two rows in a matrix, given a matrix (list of lists) and two integers
+  representing the indices for the rows to be swapped."
   ((matrix index-1 index-2) (when (== index-1 index-2))
    matrix)
   ((matrix index-1 index-2) (when (< index-1 0))
