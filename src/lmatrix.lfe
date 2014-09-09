@@ -52,12 +52,19 @@
   "Set the matrix element in the ith row and the jth column.
 
   This uses the same 1-based counting as Erlang's lists:nth/2."
+  ;; Original implementation, without the thrusing macro:
+  ;; (set-nth
+  ;;   i
+  ;;   (set-nth
+  ;;     j
+  ;;     new-elem
+  ;;     (get-nth i matrix))
+  ;;   matrix))
   (set-nth
     i
-    (set-nth
-      j
-      new-elem
-      (get-nth i matrix))
+    (->> matrix
+         (get-nth i)
+         (set-nth j new-elem))
     matrix))
 
 (defun identity
