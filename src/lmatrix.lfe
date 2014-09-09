@@ -9,6 +9,20 @@
   "This uses the same 1-based counting as Erlang's lists:nth/2."
   (lists:nth j (lists:nth i matrix)))
 
+(defun identity
+  "Provide an identify matrix.
+
+  Takes either an integer or a list of integers (as returned by the dim/1
+  function)."
+  ((`(,m ,n))
+   (identity m n))
+  ((m)
+   (identity m m)))
+
+(defun identity (m n)
+  "Provide an identify matrix."
+  (lists:duplicate m (lists:duplicate n 1)))
+
 (defun dim
   "Return a list of (m n) where m is the number of rows in the given matrix,
   and n is the number of columns."
@@ -43,20 +57,6 @@
       ((<- b (trans matrix-2)))
       (lists:foldl #'+/2 0
                    (lists:zipwith #'*/2 a b)))))
-
-(defun identity
-  "Provide an identify matrix.
-
-  Takes either an integer or a list of integers (as returned by the dim/1
-  function)."
-  ((`(,m ,n))
-   (identity m n))
-  ((m)
-   (identity m m)))
-
-(defun identity (m n)
-  "Provide an identify matrix."
-  (lists:duplicate m (lists:duplicate n 1)))
 
 (defun swap-rows (index-1 index-2 matrix)
   "This uses do-swap/3 which is probably faster for smaller matrices."

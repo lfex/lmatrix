@@ -65,6 +65,18 @@
   (is-equal 12 (lmatrix:get-nth 3 4 (matrix-8)))
   (is-equal 16 (lmatrix:get-nth 4 4 (matrix-8))))
 
+(deftest identity-square
+  (is-equal '((1)) (lmatrix:identity 1))
+  (is-equal '((1 1) (1 1)) (lmatrix:identity 2))
+  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3)))
+
+(deftest identity
+  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3 3))
+  (is-equal '((1 1 1 1 1 1)
+              (1 1 1 1 1 1)
+              (1 1 1 1 1 1))
+            (lmatrix:identity (lmatrix:dim (matrix-7)))))
+
 (deftest dimension
   (is-equal '(0 0) (lmatrix:dim (matrix-0a)))
   (is-equal '(0 0) (lmatrix:dim (matrix-0b)))
@@ -134,18 +146,6 @@
               (17 39 61 83)
               (23 53 83 113))
             (lmatrix:mult (matrix-4) (lmatrix:trans (matrix-4)))))
-
-(deftest identity-square
-  (is-equal '((1)) (lmatrix:identity 1))
-  (is-equal '((1 1) (1 1)) (lmatrix:identity 2))
-  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3)))
-
-(deftest identity
-  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3 3))
-  (is-equal '((1 1 1 1 1 1)
-              (1 1 1 1 1 1)
-              (1 1 1 1 1 1))
-            (lmatrix:identity (lmatrix:dim (matrix-7)))))
 
 (deftest swap-rows-same-index
   (is-equal (matrix-6) (lmatrix:swap-rows 0 0 (matrix-6)))
