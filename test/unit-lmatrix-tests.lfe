@@ -161,3 +161,32 @@
     (13 14 15)
     (16 17 18))
     (lmatrix:swap-rows 3 1 (matrix-6))))
+
+(deftest swap-rows-large-inverted-indices
+  (is-equal (lmatrix:swap-rows-large 0 1 (matrix-6))
+            (lmatrix:swap-rows-large 1 0 (matrix-6)))
+  (is-equal (lmatrix:swap-rows-large 2 4 (matrix-6))
+            (lmatrix:swap-rows-large 4 2 (matrix-6))))
+
+(deftest swap-rows-large-same-index
+  (is-equal (matrix-6) (lmatrix:swap-rows-large 0 0 (matrix-6)))
+  (is-equal (matrix-6) (lmatrix:swap-rows-large 1 1 (matrix-6)))
+  (is-equal (matrix-6) (lmatrix:swap-rows-large 4 4 (matrix-6))))
+
+(deftest swap-rows-large
+  (is-equal
+  '((16 17 18)
+    (4  5  6)
+    (7  8  9)
+    (10 11 12)
+    (13 14 15)
+    (1  2  3))
+    (lmatrix:swap-rows-large 0 5 (matrix-6)))
+  (is-equal
+  '((1  2  3)
+    (10 11 12)
+    (7  8  9)
+    (4  5  6)
+    (13 14 15)
+    (16 17 18))
+    (lmatrix:swap-rows-large 3 1 (matrix-6))))
