@@ -51,6 +51,20 @@
     (9  10 11 12)
     (13 14 15 16)))
 
+(deftest get-by-subscripts
+  (is-equal 1 (lmatrix:get 0 0 (matrix-8)))
+  (is-equal 5 (lmatrix:get 1 0 (matrix-8)))
+  (is-equal 7 (lmatrix:get 1 2 (matrix-8)))
+  (is-equal 12 (lmatrix:get 2 3 (matrix-8)))
+  (is-equal 16 (lmatrix:get 3 3 (matrix-8))))
+
+(deftest get-nth-by-subscripts
+  (is-equal 1 (lmatrix:get-nth 1 1 (matrix-8)))
+  (is-equal 5 (lmatrix:get-nth 2 1 (matrix-8)))
+  (is-equal 7 (lmatrix:get-nth 2 3 (matrix-8)))
+  (is-equal 12 (lmatrix:get-nth 3 4 (matrix-8)))
+  (is-equal 16 (lmatrix:get-nth 4 4 (matrix-8))))
+
 (deftest dimension
   (is-equal '(0 0) (lmatrix:dim (matrix-0a)))
   (is-equal '(0 0) (lmatrix:dim (matrix-0b)))

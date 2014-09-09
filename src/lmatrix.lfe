@@ -1,6 +1,14 @@
 (defmodule lmatrix
   (export all))
 
+(defun get (i j matrix)
+  "This uses 0-based counting."
+  (get-nth (+ i 1) (+ j 1) matrix))
+
+(defun get-nth (i j matrix)
+  "This uses the same 1-based counting as Erlang's lists:nth/2."
+  (lists:nth j (lists:nth i matrix)))
+
 (defun dim
   "Return a list of (m n) where m is the number of rows in the given matrix,
   and n is the number of columns."
