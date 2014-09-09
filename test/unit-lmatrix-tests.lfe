@@ -51,6 +51,18 @@
     (9  10 11 12)
     (13 14 15 16)))
 
+(deftest get-by-subscript
+  (is-equal '(1 2 3 4) (lmatrix:get 0 (matrix-8)))
+  (is-equal '(5 6 7 8) (lmatrix:get 1 (matrix-8)))
+  (is-equal '(9 10 11 12) (lmatrix:get 2 (matrix-8)))
+  (is-equal '(13 14 15 16) (lmatrix:get 3 (matrix-8))))
+
+(deftest get-nth-by-subscript
+  (is-equal '(1 2 3 4) (lmatrix:get-nth 1 (matrix-8)))
+  (is-equal '(5 6 7 8) (lmatrix:get-nth 2 (matrix-8)))
+  (is-equal '(9 10 11 12) (lmatrix:get-nth 3 (matrix-8)))
+  (is-equal '(13 14 15 16) (lmatrix:get-nth 4(matrix-8))))
+
 (deftest get-by-subscripts
   (is-equal 1 (lmatrix:get 0 0 (matrix-8)))
   (is-equal 5 (lmatrix:get 1 0 (matrix-8)))
@@ -64,6 +76,86 @@
   (is-equal 7 (lmatrix:get-nth 2 3 (matrix-8)))
   (is-equal 12 (lmatrix:get-nth 3 4 (matrix-8)))
   (is-equal 16 (lmatrix:get-nth 4 4 (matrix-8))))
+
+(deftest set-by-subscript
+  (is-equal
+    '((1  1  1  1)
+      (5  6  7  8)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set 0 '(1 1 1 1) (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (1  1  1  1)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set 1 '(1 1 1 1) (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (5  6  7  8)
+      (9  10 11 12)
+      (1  1  1  1))
+    (lmatrix:set 3 '(1 1 1 1) (matrix-8))))
+
+(deftest set-nth-by-subscript
+  (is-equal
+    '((1  1  1  1)
+      (5  6  7  8)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set-nth 1 '(1 1 1 1) (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (1  1  1  1)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set-nth 2 '(1 1 1 1) (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (5  6  7  8)
+      (9  10 11 12)
+      (1  1  1  1))
+    (lmatrix:set-nth 4 '(1 1 1 1) (matrix-8))))
+
+(deftest set-by-subscripts
+  (is-equal
+    '((99 2  3  4)
+      (5  6  7  8)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set 0 0 99 (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (5  6  99 8)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set 1 2 99 (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (5  6  7  8)
+      (9  10 11 99)
+      (13 14 15 16))
+    (lmatrix:set 2 3 99 (matrix-8))))
+
+(deftest set-nth-by-subscripts
+  (is-equal
+    '((99 2  3  4)
+      (5  6  7  8)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set-nth 1 1 99 (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (5  6  99  8)
+      (9  10 11 12)
+      (13 14 15 16))
+    (lmatrix:set-nth 2 3 99 (matrix-8)))
+  (is-equal
+    '((1  2  3  4)
+      (5  6  7  8)
+      (9  10 11 99)
+      (13 14 15 16))
+    (lmatrix:set-nth 3 4 99 (matrix-8))))
 
 (deftest identity-square
   (is-equal '((1)) (lmatrix:identity 1))
@@ -160,47 +252,18 @@
 
 (deftest swap-rows
   (is-equal
-  '((16 17 18)
-    (4  5  6)
-    (7  8  9)
-    (10 11 12)
-    (13 14 15)
-    (1  2  3))
+    '((16 17 18)
+      (4  5  6)
+      (7  8  9)
+      (10 11 12)
+      (13 14 15)
+      (1  2  3))
     (lmatrix:swap-rows 0 5 (matrix-6)))
   (is-equal
-  '((1  2  3)
-    (10 11 12)
-    (7  8  9)
-    (4  5  6)
-    (13 14 15)
-    (16 17 18))
+    '((1  2  3)
+      (10 11 12)
+      (7  8  9)
+      (4  5  6)
+      (13 14 15)
+      (16 17 18))
     (lmatrix:swap-rows 3 1 (matrix-6))))
-
-(deftest swap-rows-large-inverted-indices
-  (is-equal (lmatrix:swap-rows-large 0 1 (matrix-6))
-            (lmatrix:swap-rows-large 1 0 (matrix-6)))
-  (is-equal (lmatrix:swap-rows-large 2 4 (matrix-6))
-            (lmatrix:swap-rows-large 4 2 (matrix-6))))
-
-(deftest swap-rows-large-same-index
-  (is-equal (matrix-6) (lmatrix:swap-rows-large 0 0 (matrix-6)))
-  (is-equal (matrix-6) (lmatrix:swap-rows-large 1 1 (matrix-6)))
-  (is-equal (matrix-6) (lmatrix:swap-rows-large 4 4 (matrix-6))))
-
-(deftest swap-rows-large
-  (is-equal
-  '((16 17 18)
-    (4  5  6)
-    (7  8  9)
-    (10 11 12)
-    (13 14 15)
-    (1  2  3))
-    (lmatrix:swap-rows-large 0 5 (matrix-6)))
-  (is-equal
-  '((1  2  3)
-    (10 11 12)
-    (7  8  9)
-    (4  5  6)
-    (13 14 15)
-    (16 17 18))
-    (lmatrix:swap-rows-large 3 1 (matrix-6))))

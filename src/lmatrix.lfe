@@ -1,13 +1,62 @@
 (defmodule lmatrix
   (export all))
 
+(defun get (i matrix)
+  "Get the ith matrix row.
+
+  This uses 0-based counting."
+  (get-nth (+ i 1) matrix))
+
 (defun get (i j matrix)
-  "This uses 0-based counting."
+  "Get the matrix element in the ith row and the jth column.
+
+  This uses 0-based counting."
   (get-nth (+ i 1) (+ j 1) matrix))
 
+(defun get-nth (i matrix)
+  "Get the ith matrix row.
+
+  This uses the same 1-based counting as Erlang's lists:nth/2."
+  (lists:nth i matrix))
+
 (defun get-nth (i j matrix)
-  "This uses the same 1-based counting as Erlang's lists:nth/2."
+  "Get the matrix element in the ith row and the jth column.
+
+  This uses the same 1-based counting as Erlang's lists:nth/2."
   (lists:nth j (lists:nth i matrix)))
+
+(defun set (i new-row matrix)
+  "Set the ith matrix row.
+
+  This uses 0-based counting."
+  (set-nth (+ i 1) new-row matrix))
+
+(defun set (i j new-elem matrix)
+  "Set the matrix element in the ith row and the jth column.
+
+  This uses 0-based counting."
+  (set-nth (+ i 1) (+ j 1) new-elem matrix))
+
+(defun set-nth
+  "Set the ith matrix row.
+
+  This uses the same 1-based counting as Erlang's lists:nth/2."
+  ((1 new-row (cons _ rest))
+   (cons new-row rest))
+  ((i new-row (cons first rest))
+   (cons first (set-nth (- i 1) new-row rest))))
+
+(defun set-nth (i j new-elem matrix)
+  "Set the matrix element in the ith row and the jth column.
+
+  This uses the same 1-based counting as Erlang's lists:nth/2."
+  (set-nth
+    i
+    (set-nth
+      j
+      new-elem
+      (get-nth i matrix))
+    matrix))
 
 (defun identity
   "Provide an identify matrix.
@@ -58,49 +107,11 @@
       (lists:foldl #'+/2 0
                    (lists:zipwith #'*/2 a b)))))
 
-(defun swap-rows (index-1 index-2 matrix)
-  "This uses do-swap/3 which is probably faster for smaller matrices."
-  (-swap-rows index-1 index-2 matrix 'small))
-
-(defun swap-rows-large (index-1 index-2 matrix)
-  "This uses the do-swap/5 function which *might* be better for larger
-  matrices?"
-  (-swap-rows index-1 index-2 matrix 'large))
-
-(defun -swap-rows
+(defun swap-rows
   "Swap two rows in a matrix, given a matrix (list of lists) and two integers
   representing the indices for the rows to be swapped."
-  ((index-1 index-2 matrix _) (when (== index-1 index-2))
+  ((index-1 index-2 matrix) (when (== index-1 index-2))
    matrix)
-  ((index-1 index-2 matrix type) (when (> index-1 index-2))
-   (-swap-rows index-2 index-1 matrix type))
-  ((index-1 index-2 matrix 'small)
-   (do-swap index-1 index-2 matrix))
-  ((index-1 index-2 matrix 'large)
-   (do-swap matrix index-1 index-2 matrix '())))
-
-(defun do-swap (index-1 index-2 matrix)
-  (let* ((`#(,part-1 ,part-2) (lists:split index-1 matrix))
-         (rel-index (- index-2 index-1 1))
-         (`#(,part-3 ,part-4) (lists:split rel-index (cdr part-2))))
-    (++ part-1
-        (list (lists:nth (+ index-2 1) matrix))
-        part-3
-        (list (lists:nth (+ index-1 1) matrix))
-        (cdr part-4))))
-
-(defun do-swap
-  (('() _ _ _ matrix)
-   matrix)
-  (((cons head tail) index-1 index-2 old-matrix new-matrix)
-   (let ((current-index (length new-matrix)))
-     (cond
-       ((== current-index index-1)
-         (do-swap tail index-1 index-2 old-matrix
-                  (++ new-matrix (list (lists:nth (+ index-2 1) old-matrix)))))
-       ((== current-index index-2)
-         (do-swap tail index-1 index-2 old-matrix
-                  (++ new-matrix (list (lists:nth (+ index-1 1) old-matrix)))))
-       ('true
-         (do-swap tail index-1 index-2 old-matrix
-                  (++ new-matrix (list head))))))))
+  ((index-1 index-2 matrix)
+   (let ((first-swap (set index-1 (get index-2 matrix) matrix)))
+     (set index-2 (get index-1 matrix) first-swap))))
