@@ -1,6 +1,8 @@
 (defmodule lmatrix
   (export all))
 
+(include-lib "lutil/include/compose-macros.lfe")
+
 (defun get (i matrix)
   "Get the ith matrix row.
 
@@ -113,5 +115,6 @@
   ((index-1 index-2 matrix) (when (== index-1 index-2))
    matrix)
   ((index-1 index-2 matrix)
-   (let ((first-swap (set index-1 (get index-2 matrix) matrix)))
-     (set index-2 (get index-1 matrix) first-swap))))
+   (->> matrix
+        (set index-1 (get index-2 matrix))
+        (set index-2 (get index-1 matrix)))))
