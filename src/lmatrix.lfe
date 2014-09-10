@@ -67,19 +67,29 @@
          (set-nth j new-elem))
     matrix))
 
-(defun identity
-  "Provide an identify matrix.
+(defun fill
+  "Provide an fill matrix.
 
   Takes either an integer or a list of integers (as returned by the dim/1
   function)."
-  ((`(,m ,n))
-   (identity m n))
-  ((m)
-   (identity m m)))
+  ((`(,m ,n) val)
+   (fill m n val))
+  ((m val)
+   (fill m m val)))
 
-(defun identity (m n)
-  "Provide an identify matrix."
-  (lists:duplicate m (lists:duplicate n 1)))
+(defun fill (m n val)
+  "Provide an fill matrix."
+  (lists:duplicate m (lists:duplicate n val)))
+
+(defun identity (m)
+  (let ((matrix (fill m 0)))
+    (identity m matrix)))
+
+(defun identity
+  ((0 matrix)
+   matrix)
+  ((i matrix)
+   (identity (- i 1) (set-nth i i 1 matrix))))
 
 (defun dim
   "Return a list of (m n) where m is the number of rows in the given matrix,
@@ -118,7 +128,9 @@
 
 (defun swap-rows
   "Swap two rows in a matrix, given a matrix (list of lists) and two integers
-  representing the indices for the rows to be swapped."
+  representing the indices for the rows to be swapped.
+
+  This uses 0-based counting."
   ((index-1 index-2 matrix) (when (== index-1 index-2))
    matrix)
   ((index-1 index-2 matrix)

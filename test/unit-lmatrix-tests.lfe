@@ -157,17 +157,29 @@
       (13 14 15 16))
     (lmatrix:set-nth 3 4 99 (matrix-8))))
 
-(deftest identity-square
-  (is-equal '((1)) (lmatrix:identity 1))
-  (is-equal '((1 1) (1 1)) (lmatrix:identity 2))
-  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3)))
+(deftest fill-square
+  (is-equal '((1)) (lmatrix:fill 1 1))
+  (is-equal '((1 1) (1 1)) (lmatrix:fill 2 1))
+  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:fill 3 1)))
 
-(deftest identity
-  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:identity 3 3))
+(deftest fill
+  (is-equal '((1 1 1) (1 1 1) (1 1 1)) (lmatrix:fill 3 3 1))
   (is-equal '((1 1 1 1 1 1)
               (1 1 1 1 1 1)
               (1 1 1 1 1 1))
-            (lmatrix:identity (lmatrix:dim (matrix-7)))))
+            (lmatrix:fill (lmatrix:dim (matrix-7)) 1)))
+
+(deftest identity
+  (is-equal '((1)) (lmatrix:identity 1))
+  (is-equal '((1 0)
+              (0 1)) (lmatrix:identity 2))
+  (is-equal '((1 0 0)
+              (0 1 0)
+              (0 0 1)) (lmatrix:identity 3))
+  (is-equal '((1 0 0 0)
+              (0 1 0 0)
+              (0 0 1 0)
+              (0 0 0 1)) (lmatrix:identity 4)))
 
 (deftest dimension
   (is-equal '(0 0) (lmatrix:dim (matrix-0a)))
