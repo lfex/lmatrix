@@ -130,10 +130,45 @@
   "Swap two rows in a matrix, given a matrix (list of lists) and two integers
   representing the indices for the rows to be swapped.
 
-  This uses 0-based counting."
+  This uses 0-based index counting."
   ((index-1 index-2 matrix) (when (== index-1 index-2))
    matrix)
   ((index-1 index-2 matrix)
    (->> matrix
         (set index-1 (get index-2 matrix))
         (set index-2 (get index-1 matrix)))))
+
+(defun pivotize (matrix)
+  "Generate a pivot matrix for the given matrix.
+
+  This uses 0-based index counting."
+  (let* ((n (car (dim matrix)))
+         (p (identity n)))
+    (pivotize 0 n 0 (get 0 0 matrix) matrix p)))
+
+(defun pivotize
+  ((j n _ _ _ p) (when (== j n))
+   p)
+  ((j n row max matrix p)
+   (lists:last
+     (list-comp
+       ((<- i (lists:seq j (- n 1))))
+       (let* ((`(,row ,max) (max-pivot i j row max matrix))
+              (next-p (do-pivot-swap j row p))
+              (next-j (+ j 1)))
+         (pivotize next-j n row max matrix next-p))))))
+
+(defun max-pivot (i j old-row old-max matrix)
+  "See if we've found a bigger one yet.
+
+  Expects 0-based index counting."
+  (let ((new-max (get i j matrix)))
+    (if (> new-max old-max)
+      `(,i ,new-max)
+      `(,old-row ,old-max))))
+
+(defun do-pivot-swap (j row p)
+  "Conditionally swap rows."
+  (if (=/= j row)
+    (swap-rows j row p)
+    p))

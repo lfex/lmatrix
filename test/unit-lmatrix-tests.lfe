@@ -279,3 +279,17 @@
       (13 14 15)
       (16 17 18))
     (lmatrix:swap-rows 3 1 (matrix-6))))
+
+(deftest pivotize
+  (is-equal '((0 1)
+              (1 0))
+            (lmatrix:pivotize (matrix-2)))
+  (is-equal '((0 0 1)
+              (1 0 0)
+              (0 1 0))
+            (lmatrix:pivotize (matrix-3)))
+  (is-equal '((0 0 0 1)
+              (1 0 0 0)
+              (0 1 0 0)
+              (0 0 1 0))
+            (lmatrix:pivotize (matrix-8))))
