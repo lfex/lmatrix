@@ -51,6 +51,11 @@
     (9  10 11 12)
     (13 14 15 16)))
 
+(defun matrix-9 ()
+  '((1 3 5)
+    (2 4 7)
+    (1 1 0)))
+
 (deftest get-by-subscript
   (is-equal '(1 2 3 4) (lmatrix:get 0 (matrix-8)))
   (is-equal '(5 6 7 8) (lmatrix:get 1 (matrix-8)))
@@ -293,3 +298,16 @@
               (0 1 0 0)
               (0 0 1 0))
             (lmatrix:pivotize (matrix-8))))
+
+(deftest lu
+  (is-equal `(#(l ((1    0   0)
+                   (0.5  1   0)
+                   (0.5 -1   1)))
+              #(u ((2    4   7)
+                   (0    1 1.5)
+                   (0    0  -2)))
+              #(p ((0    1   0)
+                   (1    0   0)
+                   (0    0   1))))
+            (lmatrix:lu (matrix-9)))
+  )

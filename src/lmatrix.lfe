@@ -172,3 +172,66 @@
   (if (=/= j row)
     (swap-rows j row p)
     p))
+
+(defun lu (matrix)
+  "Decomposes a nxn matrix A by PA=LU and returns L, U and P."
+  (let* ((n (car (dim matrix)))
+         (l (fill n 0))
+         (u (fill n 0))
+         (p (pivotize matrix))
+         (a (mult p matrix)))
+    (lu 0 n l u p a)))
+
+(defun lu
+  ((j n l u p _) (when (== j (- n 1)))
+   `(#(l ,l) #(u ,u) #(p ,p)))
+  ((j n l u p a)
+   (let* ((l (set j j 1 l))
+          (next-u (get-u j l u a))
+          (next-l (get-l j n l next-u a))
+          (next-j (+ j 1)))
+     (lfe_io:format "~np: ~p~n" (list p))
+     (lu next-j n next-l next-u p a)
+     )))
+
+(defun get-u (j l u a)
+  (lists:last
+    (list-comp
+      ((<- i (lists:seq 0 j)))
+      (let ((sum (lists:sum
+                   (list-comp
+                     ((<- k (lists:seq 0 (- i 1))))
+                     (* (get k j u)
+                        (get i k l))))))
+        (lfe_io:format "~nu: ~p~n" (list (set i j
+             (- (get i j a) sum)
+             u)))
+        (set i j
+             (- (get i j a) sum)
+             u)))))
+
+(defun get-l (j n l u a)
+  (lists:last
+    (list-comp
+      ((<- i (lists:seq j (- n 1))))
+      (let ((sum (lists:sum
+                   (list-comp
+                     ((<- k (lists:seq 0 (- j 1))))
+                     (* (get k j u)
+                        (get i k l))))))
+        ; (lfe_io:format "~ni: ~p~n" (list i))
+        ; (lfe_io:format "~ni: ~p~n" (list i))
+        ; (lfe_io:format "~nj: ~p~n" (list j))
+        ; (lfe_io:format "~naij: ~p~n" (list (get i j a)))
+        ; (lfe_io:format "~nsum: ~p~n" (list sum))
+        ; (lfe_io:format "~naij - sum: ~p~n" (list (- (get i j a) sum)))
+        ; (lfe_io:format "~nujj: ~p~n" (list (get j j u)))
+        (lfe_io:format "~nl: ~p~n" (list (set i j
+             (/ (- (get i j a) sum)
+                (get j j u))
+             l)))
+        (set i j
+             (/ (- (get i j a) sum)
+                (get j j u))
+             l)))))
+        ; l))))
